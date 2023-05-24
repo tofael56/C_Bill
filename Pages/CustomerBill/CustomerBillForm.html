@@ -1,0 +1,221 @@
+﻿<form name="customerBill" novalidate>
+    <div class="col-md-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h3 class="panel-title pull-left "><i class="fa fa-list"></i>&nbsp;Customer Bill</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group" ng-class="{ 'has-error' : stockReceive.ReceiveNo1.$invalid && stockReceive.ReceiveNo1.$touched }" data-toggle="tooltip" data-placement="bottom" title="PO No">
+                            <div class="input-group ">
+                                <input type="text" id="txtReceiveNo" name="ReceiveNo1" class="form-control" ng-model="custoemrBill.ReceiveNo" placeholder="PO No" maxlength="41" ng-maxlength="40" ng-blur="CheckDuplicateReceiveNo()" ng-change="foundChange()" required autofocus>
+                                <span class="input-group-addon"><i class="fa fa-text-width req-icon-color"></i></span>
+                            </div>
+                            <span class="help-block" style="display: block;" ng-if="stockReceive.ReceiveNo1.$error.required && stockReceive.ReceiveNo1.$touched">PO No is Required</span>
+                            <span class="help-block" style="display: block;" ng-if="stockReceive.ReceiveNo1.$error.maxlength">40 Character Max</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group" ng-class="{ 'has-error' : stockReceive.ReceiveDate1.$invalid && stockReceive.ReceiveDate1.$touched }" data-toggle="tooltip" data-placement="bottom" title="Receive Date">
+                            <div class='input-group'>
+                                <input type="text" ng-model="custoemrBill.ReceiveDate" onkeydown="return false" name="ReceiveDate1" id="txtFromDate1" class="form-control " placeholder="Receive Date" required />
+                                <span class="input-group-addon" id="calender1"><i class="fa fa-calendar" style="color:red;"></i></span>
+                            </div>
+                            <span class="help-block" style="display: block;" ng-if="stockReceive.ReceiveDate1.$error.required && stockReceive.ReceiveDate1.$touched">Receive Date is Required</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group" ng-class="{ 'has-error' : stockReceive.ddlStore.$dirty && stockReceive.ddlStore.$invalid }" data-toggle="tooltip" data-placement="bottom" title="Select Store">
+                            <div class="input-group input-group-md ddl">
+                                <select id="ddlStore" ng-model="ddlStore" class="form-control selectMendatory" name="ddlStore" ng-change="custoemrBill.DepartmentName=ddlStore.DepartmentName;custoemrBill.DepartmentId=ddlStore.DepartmentId" ng-options="store.DepartmentName for store in Storelist track by store.DepartmentId" required>
+                                    <option value="" label="Outlet Store"></option>
+                                </select>
+                            </div>
+                            <span class="help-block" ng-show="stockReceive.ddlStore.$dirty && stockReceive.ddlStore.$invalid">Outlet is Required</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group" ng-class="{ 'has-error' : stockReceive.ddlReceiveBy.$dirty && stockReceive.ddlReceiveBy.$invalid }" data-toggle="tooltip" data-placement="bottom" title="Receive By">
+                            <div class="input-group input-group-md ddl">
+                                <select id="ddlReceiveBy" ng-model="ddlReceiveBy" class="form-control selectMendatory" name="ddlReceiveBy" ng-options="employee.FullName for employee in EmployeeList track by employee.EmployeeId" required>
+                                    <option value="" label="Receive By"></option>
+                                </select>
+                            </div>
+                            <span class="help-block" ng-show="stockReceive.ddlReceiveBy.$dirty && stockReceive.ddlReceiveBy.$invalid">Receive By is Required</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group" ng-class="{ 'has-error' : SaleForm.PriceType.$dirty && SaleForm.PriceType.$invalid }" data-toggle="tooltip" data-placement="bottom" title="Price Type">
+                            <div class="input-group input-group-md ddl">
+                                <select ng-model="ddlPriceType" ng-disabled="custoemrBillDetailList.length" class="form-control selectMendatory" ng-options="aActivePriceType.PriceTypeName for aActivePriceType in ActivePriceTypeList track by aActivePriceType.PriceTypeId" name="PriceType">
+                                    <option value="" label="Price Type"></option>
+                                </select>
+                            </div>
+                            <span class="help-block" ng-show="SaleForm.PriceType.$dirty && SaleForm.PriceType.$invalid">Price Type required</span>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group" ng-class="{ 'has-error' : stockReceive.Remarks.$invalid && stockReceive.Remarks.$touched }" data-toggle="tooltip" data-placement="bottom" title="Remarks">
+                            <div class="input-group ">
+                                <input type="text" id="txtRemarks" name="Remarks" class="form-control" ng-model="custoemrBill.Remarks" placeholder="Remarks" maxlength="201" ng-maxlength="200">
+                                <span class="input-group-addon"><i class="fa fa-commenting-o"></i></span>
+                            </div>
+                            <span class="help-block" style="display: block;" ng-if="stockReceive.Remarks.$error.required && stockReceive.Remarks.$touched">Remarks is required</span>
+                            <span class="help-block" style="display: block;" ng-if="stockReceive.Remarks.$error.maxlength">200 Character Max</span>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group" ng-class="{ 'has-error' : stockReceive.BarCode.$invalid && stockReceive.BarCode.$touched }" data-toggle="tooltip" data-placement="bottom" title="Free Qty">
+                            <div class="input-group">
+                                <input type="text" id="txtBarCode" name="BarCode" ng-model-options='{ debounce: 300 }' ng-change="BarcodeSearch()" onclick="this.setSelectionRange(0, this.value.length)" class="form-control txt-center" ng-model="ItemCode" placeholder="Barcode" maxlength="21" ng-maxlength="20" ng-disabled="!ddlStore || !ddlPriceType">
+                                <span class="input-group-addon"><i class="fa fa-text-width req-icon-color"></i></span>
+                            </div>
+                            <span class="help-block" style="display: block;" ng-if="stockReceive.BarCode.$error.required && stockReceive.BarCode.$touched"></span>
+                            <span class="help-block" ng-if="stockReceive.BarCode.$error.maxlength">20 Character Max</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group" ng-class="{ 'has-error' : stockReceive.Product.$invalid && stockReceive.Product.$touched }" data-toggle="tooltip" data-placement="bottom" title="Product">
+                            <div class="input-group input-group-md ddl">
+                                <input type="text" id="txtProduct" name="Product" class="form-control" ng-model="Product" ng-blur="ItemSearch()" uib-typeahead="item as item.ItemName for item in VarietyList | filter:{ItemName:$viewValue}  | limitTo:500" onclick="this.setSelectionRange(0, this.value.length)" ng-disabled="!ddlStore || !ddlPriceType" placeholder="Product Name">
+                                <span class="input-group-addon"><i class="fa fa-text-width req-icon-color"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group" ng-class="{ 'has-error' : stockReceive.costPrice.$invalid && stockReceive.costPrice.$touched }" data-toggle="tooltip" data-placement="bottom" title="Cost Price">
+                            <div class="input-group">
+                                <input type="number" id="txtCostPrice" name="costPrice" class="form-control txt-center" ng-model="ReceiveDetail.SRUnitPrice" placeholder="Cost Price" maxlength="21" ng-maxlength="20" readonly>
+                                <span class="input-group-addon">৳</span>
+                            </div>
+                            <span class="help-block" style="display: block;" ng-if="stockReceive.costPrice.$error.required && stockReceive.costPrice.$touched"></span>
+                            <span class="help-block" ng-if="stockReceive.costPrice.$error.maxlength">20 Character Max</span>
+                        </div>
+                        <!--<div class="form-group" ng-class="{ 'has-error' : stockReceive.ddlUnitReceive.$dirty && stockReceive.ddlUnitReceive.$invalid }" data-toggle="tooltip" data-placement="bottom" title="Select Unit">
+                            <div class="input-group input-group-md ddl">
+                                <select ng-model="ddlUnitReceive" id="ddlUnitReceivet" class="form-control selectMendatory" name="ddlUnitReceive" ng-change="ReceiveDetail.SRUnitId=ddlUnitReceive.ItemUnitId;ReceiveDetail.SRUnitName=ddlUnitReceive.UnitName; GetItemDetails(ddlUnitReceive.ItemUnitId);" ng-options="unit.UnitName for unit in ItemUnitlist  | filter: unitFilter track by unit.ItemUnitId">
+                                    <option value="" label="Select Unit"></option>
+                                </select>
+                            </div>
+                            <span class="help-block" ng-show="stockReceive.ddlUnitReceive.$dirty && stockReceive.ddlUnitReceive.$invalid">Unit is Required</span>
+                        </div>-->
+                    </div>
+                    <div class="col-md-3">
+                        <!--<div class="form-group" ng-class="{ 'has-error' : stockReceive.costPrice.$invalid && stockReceive.costPrice.$touched }" data-toggle="tooltip" data-placement="bottom" title="Cost Price">
+                            <div class="input-group">
+                                <input type="number" id="txtCostPrice" name="costPrice" class="form-control txt-center" ng-model="ReceiveDetail.SRUnitPrice" placeholder="Cost Price" maxlength="21" ng-maxlength="20" readonly>
+                                <span class="input-group-addon">৳</span>
+                            </div>
+                            <span class="help-block" style="display: block;" ng-if="stockReceive.costPrice.$error.required && stockReceive.costPrice.$touched"></span>
+                            <span class="help-block" ng-if="stockReceive.costPrice.$error.maxlength">20 Character Max</span>
+                        </div>-->
+                        <div class="form-group" ng-class="{ 'has-error' : stockReceive.ReceiveQty.$invalid && stockReceive.ReceiveQty.$touched }" data-toggle="tooltip" data-placement="bottom" title="Rcv. Qty">
+                            <div class="input-group">
+                                <input type="number" id="txtReceiveQty" name="ReceiveQty" class="form-control txt-center" ng-model="ProductAttributeQty" placeholder="Receive Qty" maxlength="21" ng-maxlength="20">
+                                <span class="input-group-addon"><i class="fa fa-text-width req-icon-color"></i></span>
+                            </div>
+                            <span class="help-block" ng-if="stockReceive.ReceiveQty.$error.maxlength">20 Character Max</span>
+                        </div>
+                    </div>
+                    <!--<div class="col-md-2">
+                        <div class="form-group" ng-class="{ 'has-error' : stockReceive.ReceiveQty.$invalid && stockReceive.ReceiveQty.$touched }" data-toggle="tooltip" data-placement="bottom" title="Rcv. Qty">
+                            <div class="input-group">
+                                <input type="number" id="txtReceiveQty" name="ReceiveQty" class="form-control txt-center" ng-model="ReceiveDetail.SRQuantity" placeholder="Receive Qty" maxlength="21" ng-maxlength="20">
+                                <span class="input-group-addon"><i class="fa fa-text-width req-icon-color"></i></span>
+                            </div>
+                            <span class="help-block" style="display: block;" ng-if="stockReceive.ReceiveQty.$error.required && stockReceive.ReceiveQty.$touched"></span>
+                            <span class="help-block" ng-if="stockReceive.ReceiveQty.$error.maxlength">20 Character Max</span>
+                        </div>
+                    </div>-->
+                </div>
+                <div class="row">
+                    <div class="col-md-2" ng-repeat="aAttribut in ReceiveDetail.AttributName">
+                        <div class="input-group input-group-md ddl">
+                            <select ng-model="aAttribut.ddlaAttribut" class="form-control selectMendatory" ng-options="aAttributNameValue.Value for aAttributNameValue in aAttribut.AttributNameValue">
+                                <option value="" label="Select {{aAttribut.AttributeName}}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button id="btnAdd" class="customBtn custmoBtnReset btn-add" ng-disabled="!Product||!ddlUnitReceive || !ProductAttributeQty" title="Add" ng-click="AddReceiveDetail()">
+                            <i class="fa fa-plus-square"></i>&nbsp;{{DetailAddBtn}}
+                        </button>
+                    </div>
+                    <div class="col-md-2">
+                        <button id="btnRemove" class="customBtn custmoBtnDelete" title="Remove" ng-show="RemoveBtnShow" ng-click="RemoveReceiveDetail()">
+                            <i class="fa fa-minus-square"></i>&nbsp;Remove
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <table class="responstable table-hover">
+                        <tr>
+                            <th class="t-cell-center"></th>
+                            <th class="t-cell-center">SL.No</th>
+                            <th class="t-cell-center">Product Name</th>
+                            <th class="t-cell-center">Unit Price</th>
+                            <th class="t-cell-center">Receive Quantity</th>
+                        </tr>
+                        <tbody ng-repeat="custoemrBillDetail in custoemrBillDetailList" ng-click="SelReceiveDetail(custoemrBillDetail,$index);">
+                            <tr>
+                                <td ng-click="$event.stopPropagation();" class="t-cell-center"><label><i ng-show="!custoemrBillDetail.DisplaySta && custoemrBillDetail.HeaderOfAttribute.length" class="fa fa-plus-square"></i><i ng-show="custoemrBillDetail.DisplaySta  && custoemrBillDetail.HeaderOfAttribute.length" class="fa fa-minus-square"></i><input style="visibility:hidden;" type="checkbox" ng-model="custoemrBillDetail.DisplaySta" /></label></td>
+                                <td class="t-cell-center">{{$index+1}}</td>
+                                <td class="t-cell-center">{{custoemrBillDetail.ItemName}}</td>
+                                <td class="t-cell-center">{{custoemrBillDetail.SRUnitPrice}}</td>
+                                <td class="t-cell-center">{{custoemrBillDetail.SRQuantity}}</td>
+                            </tr>
+                            <tr ng-click="$event.stopPropagation();" ng-show="custoemrBillDetail.DisplaySta && custoemrBillDetail.HeaderOfAttribute.length">
+                                <td></td>
+                                <td colspan="4">
+                                    <div>
+                                        <table class="responstable table-hover">
+                                            <tr>
+                                                <th class="t-cell-center">Barcode</th>
+                                                <th class="t-cell-center" ng-repeat="AttributeName in custoemrBillDetail.HeaderOfAttribute">{{AttributeName}}</th>
+                                                <th class="t-cell-center">Quantity</th>
+                                            </tr>
+                                            <tr class="HoverTable" ng-repeat="custoemrBillDetailAdAttribute in custoemrBillDetailAdAttributeLst | filter: { ItemId : custoemrBillDetail.ItemId }:true">
+                                                <td class="t-cell-center">{{custoemrBillDetailAdAttribute.Barcode}}</td>
+                                                <td class="t-cell-center" ng-repeat="AttributeValue in custoemrBillDetailAdAttribute.ValueOfAttribute">{{AttributeValue}}</td>
+                                                <td class="t-cell-center text-center">
+                                                    <input type="number" min="1" style="text-align:center" ng-change="SumAttQty()" ng-model="custoemrBillDetailAdAttribute.AttributeQty" />
+                                                    <button title="Remove" ng-click="custoemrBillDetail.SRQuantity = custoemrBillDetail.SRQuantity - custoemrBillDetailAdAttribute.AttributeQty;RemoveItemAttr(custoemrBillDetailAdAttribute)">
+                                                        <i class="fa fa-minus-square"></i>&nbsp;Remove
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-4">
+                        <button ng-click="Save()" ng-disabled="!custoemrBill.ReceiveNo || !custoemrBill.ReceiveDate || !ddlStore || !ddlReceiveBy || !custoemrBillDetailList.length || RemoveBtnShow" style="margin-left: -15px;" class="customBtn custmoBtnSave" title="Save">
+                            <i class="fa fa-floppy-o"></i>&nbsp;{{btnSave}}
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" ng-click="Reset()" class="customBtn custmoBtnReset" title="Reset">
+                            <i class="fa fa-refresh"></i>&nbsp;Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
