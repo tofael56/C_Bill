@@ -10,7 +10,7 @@
     <PackageReference Include="Angular.UI.Bootstrap" Version="2.5.0" />
     <PackageReference Include="AngularJS.Animate" Version="1.8.2" />
     <PackageReference Include="AngularJS.Core" Version="1.8.2" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.14" />
   </ItemGroup>
 
 </Project>
